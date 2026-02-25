@@ -1,0 +1,116 @@
+/* ============================= */
+/* Global CSS Reset & Base Styles */
+/* ============================= */
+
+/* Font settings */
+:root {
+  --font-sans: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Box-sizing & universal reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* HTML & body full height, smooth font rendering */
+html, body, #__next {
+  height: 100%;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+/* Default body text */
+body {
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+/* Default link styling */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Default button styling */
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* Lists reset */
+ul, ol {
+  list-style: none;
+}
+
+/* Images responsive */
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* Form elements inherit font */
+input, textarea, select {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+
+/* Paragraph global class */
+.paragraph {
+  font-size: 1rem;        /* 16px */
+  font-weight: 400;       /* Regular */
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  color: var(--color-text);
+}
+
+/* Headings global classes */
+.heading {
+  font-weight: 700;
+  color: var(--color-text);
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.heading-xl { font-size: 4rem; }       /* 64px */
+.heading-lg { font-size: 2.625rem; }   /* 42px */
+.heading-md { font-size: 1.5625rem; }  /* 25px */
+
+
+
+.nav-item {
+  font-size: 0.875rem;       /* 14px */
+  font-weight: 500;          /* medium */
+  color: var(--color-text);  /* default black */
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: color 0.3s ease, background-color 0.3s ease;
+
+
+  &:hover {
+    color: var(--color-accent, #2563eb);
+    background-color: rgba(37, 99, 235, 0.1); /* light accent bg */
+  }
+
+  &:focus {
+    outline: 2px solid var(--color-accent, #2563eb);
+    outline-offset: 2px;
+  }
+
+
+  &.active {
+    color: #fff;
+    background-color: var(--color-accent, #2563eb);
+  }
+}
