@@ -29,7 +29,7 @@ const NavbarComponent = () => {
 
   const navItems = [
     { name: "Brands", href: "/brands" },
-    { name: "About", href: "/about" },
+    { name: "About us", href: "/about" },
     { name: "Services", href: "/services" },
     { name: "Resource Hub", href: "/resources" },
     { name: "Support", href: "/support" },

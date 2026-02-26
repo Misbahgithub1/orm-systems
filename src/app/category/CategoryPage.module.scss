@@ -197,9 +197,11 @@
 .productDescription {
   font-size: 0.875rem;
   color: #6b7280;
-  max-height: 3.4em;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .productMetaRow {
@@ -213,7 +215,7 @@
   display: flex;
   align-items: center;
   gap: 0.35rem;
-  font-size: 0.85rem;
+  font-size: $body-md;
 }
 
 .ratingStars {
@@ -247,6 +249,7 @@
   justify-content: center;
 }
 .inStockBadge {
+  font-weight: 400;
   font-size: $body-sm;
   padding: 0.25rem 0.5rem;
   border-radius: 2px;
@@ -260,6 +263,7 @@
 
 .loadMoreButton {
   min-width: 220px;
+
 }
 
 .loadingWrapper,
@@ -290,6 +294,15 @@
 }
 
 @media (max-width: 767.98px) {
+.ratingWrapper {
+ justify-content: center;
+}
+.productBody {
+text-align: center;
+}
+
+
+
   .pageWrapper {
     padding: 2.25rem 0;
   }
@@ -315,7 +328,7 @@
   }
 
   .productImageWrapper {
-    justify-content: flex-start;
+    justify-content: center;
   }
 
   .productMetaRow {
@@ -324,6 +337,11 @@
   }
 
   .priceWrapper {
-    align-items: flex-start;
+            display: flex;
+        flex-direction: row;
+  }
+  .productDescription {
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
   }
 }

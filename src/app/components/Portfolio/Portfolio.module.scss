@@ -67,8 +67,6 @@
   grid-column: span 2;
 }
 
-
-
 .imageCardSquare {
   height: auto;
   aspect-ratio: 1 / 1;
@@ -115,7 +113,7 @@
 
 @media (max-width: 767.98px) {
   .portfolioWrapper {
-    padding: 3rem 1rem;
+    padding: 0rem 1rem;
 
     h2 {
       &::after {

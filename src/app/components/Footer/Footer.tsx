@@ -3,6 +3,7 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import Image from "next/image";
+import Link from "next/link";
 import {
   Telephone,
   Facebook,
@@ -20,7 +21,7 @@ const Footer = () => {
             <div className={styles.topSection}>
               <div className={styles.logo}>
                 <Image
-                  src="/images/logo.png"
+                  src="/images/footer-logo.png"
                   alt="ORM Systems"
                   width={140}
                   height={40}
@@ -39,18 +40,18 @@ const Footer = () => {
                 </div>
 
                 <nav className={styles.navLinks} aria-label="Footer navigation">
-                  <a href="/" className={styles.navLink}>
+                  <Link href="/" className={styles.navLink}>
                     Home
-                  </a>
-                  <a href="/services" className={styles.navLink}>
+                  </Link>
+                  <Link href="/services" className={styles.navLink}>
                     Services
-                  </a>
-                  <a href="/about" className={styles.navLink}>
+                  </Link>
+                  <Link href="/about" className={styles.navLink}>
                     About Us
-                  </a>
-                  <a href="/blog" className={styles.navLink}>
+                  </Link>
+                  <Link href="/blog" className={styles.navLink}>
                     Blog
-                  </a>
+                  </Link>
                 </nav>
 
                 <div className={styles.emailBlock}>

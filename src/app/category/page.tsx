@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Container, Row, Col, Form, Button, Spinner, Badge } from "react-bootstrap";
 import { useRouter } from "next/navigation";
 import { ChevronUp, ChevronDown, StarFill, Star } from "react-bootstrap-icons";
@@ -39,6 +39,30 @@ const CategoryListingPage: React.FC = () => {
 
   // See more state
   const [showAllCategories, setShowAllCategories] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < 768);
+    onResize();
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  const shortDescription = useCallback(
+    (text: string) => {
+      if (!text) return "";
+      const limit = isMobile ? 110 : 160;
+      const t = text.replace(/\s+/g, " ").trim();
+      if (t.length <= limit) return t;
+      const sentenceCut = t.slice(0, limit + 40).lastIndexOf(".");
+      if (sentenceCut > 40) return t.slice(0, sentenceCut + 1);
+      const cut = t.slice(0, limit);
+      const lastSpace = cut.lastIndexOf(" ");
+      const base = lastSpace > 0 ? cut.slice(0, lastSpace) : cut;
+      return base + "…";
+    },
+    [isMobile]
+  );
 
   const toggleSection = (section: keyof typeof expandedSections) => {
     setExpandedSections((prev) => ({ ...prev, [section]: !prev[section] }));
@@ -343,7 +367,7 @@ const CategoryListingPage: React.FC = () => {
                           <h3 className={styles.productTitle}>{product.title}</h3>
                         </div>
                         <p className={styles.productDescription}>
-                          {product.description}
+                          {shortDescription(product.description)}
                         </p>
                         <div className={styles.productMetaRow}>
                           <div className={styles.ratingWrapper}>

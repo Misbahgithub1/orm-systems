@@ -44,6 +44,8 @@
 }
 
 .productImage {
+  width: 100%;
+  height: 100%;
   object-fit: contain;
 }
 
@@ -80,6 +82,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
+  line-clamp: 2;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
@@ -209,12 +212,14 @@
 .actionsRow {
   display: flex;
   flex-wrap: wrap;
- 
+  gap: 0.75rem;
+  width: 100%;
 
 }
 
 .addToCartButtonWrapper {
   min-width: 180px;
+  flex: 0 1 auto;
 }
 
 .favouriteButton {
@@ -234,6 +239,11 @@
     background-color: #f9fafb;
     color: #111827;
   }
+}
+
+.favouriteActive {
+  color: #ef4444;
+  border-color: #fecaca;
 }
 
 .relatedSection {
@@ -377,16 +387,26 @@
   }
 
   .priceAndQuantityRow {
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.75rem;
   }
 
   .actionsRow {
-    flex-direction: column;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: nowrap;
   }
 
   .addToCartButtonWrapper {
-    width: 100%;
+    width: auto;
+    flex: 1 1 0%;
+    min-width: 0;
+  }
+
+  .favouriteButton {
+    flex: 0 0 40px;
   }
 }
 

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Form, Spinner, Badge } from "react-bootstrap";
 import { useRouter, useParams } from "next/navigation";
 import Image from "next/image";
-import { StarFill, Star, Heart, Search } from "react-bootstrap-icons";
+import { StarFill, Star, Heart, HeartFill, Search } from "react-bootstrap-icons";
 import styles from "./ProductDetailPage.module.scss";
 import AddToCartButton from "../../components/AddToCartButton/AddToCartButton";
 import { Product, getAllProducts } from "../../../lib/api/products";
@@ -19,12 +19,28 @@ const ProductDetailPage: React.FC = () => {
   const [loadingProduct, setLoadingProduct] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [quantity, setQuantity] = useState<number>(1);
+  const [isFavourite, setIsFavourite] = useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
   const [allProducts, setAllProducts] = useState<Product[] | null>(null);
   const [searchResults, setSearchResults] = useState<Product[]>([]);
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchError, setSearchError] = useState<string | null>(null);
+
+  const FAV_KEY = "orm:favourites";
+
+  const computeDisplayNames = (title?: string, description?: string) => {
+    const t = (title ?? "").trim();
+    const d = (description ?? "").trim();
+    const skuLike = /^[A-Za-z0-9-]{5,}$/.test(t) && !t.includes(" ");
+    if (skuLike) {
+      return { primary: t.toUpperCase(), secondary: d };
+    }
+    const primaryCandidate = t.split(/[,-]/)[0]?.trim() || t;
+    const secondaryCandidate =
+      t.slice(primaryCandidate.length).replace(/^[,–-]\s*/, "").trim() || d;
+    return { primary: primaryCandidate.toUpperCase(), secondary: secondaryCandidate };
+  };
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -45,6 +61,18 @@ const ProductDetailPage: React.FC = () => {
 
     fetchProduct();
   }, [productId]);
+
+  useEffect(() => {
+    if (!product) return;
+    try {
+      const raw = typeof window !== "undefined" ? localStorage.getItem(FAV_KEY) : null;
+      const list: unknown = raw ? JSON.parse(raw) : [];
+      const ids = Array.isArray(list) ? (list as unknown[]).filter((x) => typeof x === "number") as number[] : [];
+      setIsFavourite(ids.includes(product.id));
+    } catch {
+      setIsFavourite(false);
+    }
+  }, [product]);
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -105,6 +133,27 @@ const ProductDetailPage: React.FC = () => {
     console.log(`Add ${quantity} of product ${product.id} to cart`);
   };
 
+  const handleToggleFavourite = () => {
+    if (!product) return;
+    try {
+      const raw = typeof window !== "undefined" ? localStorage.getItem(FAV_KEY) : null;
+      const list: unknown = raw ? JSON.parse(raw) : [];
+      let ids = Array.isArray(list) ? (list as unknown[]).filter((x) => typeof x === "number") as number[] : [];
+      if (ids.includes(product.id)) {
+        ids = ids.filter((id) => id !== product.id);
+        setIsFavourite(false);
+      } else {
+        ids = [...ids, product.id];
+        setIsFavourite(true);
+      }
+      if (typeof window !== "undefined") {
+        localStorage.setItem(FAV_KEY, JSON.stringify(ids));
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   const handleBack = () => {
     router.back();
   };
@@ -140,6 +189,8 @@ const ProductDetailPage: React.FC = () => {
     );
   }
 
+  const { primary, secondary } = computeDisplayNames(product.title, product.description);
+
   return (
     <section className={styles.pageWrapper}>
       <Container>
@@ -174,8 +225,8 @@ const ProductDetailPage: React.FC = () => {
 
                 <Col xs={12} md={7} className={styles.detailsCol}>
                   <div className={styles.titleRow}>
-                    <h1 className={styles.productName}>{product.title}</h1>
-                    <p className={styles.fullName}>{product.description}</p>
+                    <h1 className={styles.productName}>{primary}</h1>
+                    <p className={styles.fullName}>{secondary}</p>
                   </div>
 
                   <div className={styles.ratingRow}>
@@ -253,10 +304,12 @@ const ProductDetailPage: React.FC = () => {
                     </div>
                     <button
                       type="button"
-                      className={styles.favouriteButton}
-                      aria-label="Add to favourites"
+                      className={`${styles.favouriteButton} ${isFavourite ? styles.favouriteActive : ""}`}
+                      aria-label={isFavourite ? "Remove from favourites" : "Add to favourites"}
+                      aria-pressed={isFavourite}
+                      onClick={handleToggleFavourite}
                     >
-                      <Heart size={18} />
+                      {isFavourite ? <HeartFill size={18} /> : <Heart size={18} />}
                     </button>
                   </div>
                 </Col>
