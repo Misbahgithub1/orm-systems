@@ -1,32 +1,125 @@
-.navbarContainer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.5rem 2rem;
-  background-color: #fff;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+.navbarWrapper {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: #fff;
+    transition: all 0.3s ease;
+    height: 94px;
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.274);
+    padding: 1rem;
+
+
+    .logoImage {
+        object-fit: contain !important;
+
+    }
+
+    .scrolled {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Main Container */
+    .navbarContainer {
+
+
+        display: flex;
+        justify-content: center;
+    }
+
+
+    .logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    /* Desktop Nav */
+    .navItems {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        align-items: center;
+    }
+
+    /* Nav Item */
+    .navItem {
+        font-family: 'FormaDJRMicro', var(--font-sans);
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: var(--color-text, #000);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        transition: 0.3s ease;
+        text-decoration: none;
+
+        &:hover {
+            color: var(--color-accent, #2563eb);
+            background-color: rgba(37, 99, 235, 0.1);
+        }
+
+        &.active {
+            color: #fff;
+            background-color: var(--color-accent, #2563eb);
+        }
+    }
+
+
+    .ctaButton {
+        background-color: #000;
+        color: #fff;
+        padding: 0.55rem 1.4rem;
+        border-radius: 4px;
+        border: none;
+        text-transform: uppercase;
+        font-weight: 500;
+        transition: 0.3s ease;
+        width: 181px;
+        height: 46px;
+
+        &:hover {
+            background-color: #222;
+        }
+    }
+
+    .hamburger {
+        color: #000;
+        padding: 0;
+    }
+
+
+    .mobileSidebar {
+        width: 280px;
+        padding: 1.5rem;
+    }
+
+
 }
 
-.logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-  cursor: pointer;
-}
 
 
+/* Sidebar Specific CTA */
 
-.ctaButton {
-  background-color: #000;
-  color: #fff;
-  padding: 0.5rem 1.25rem;
-  border-radius: 0.25rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+.sidebarCta {
 
-  &:hover {
-    background-color: #222;
-  }
+    width: 181px;
+    height: 46px;
+    margin-top: 1rem;
+    background-color: #000;
+    color: #fff;
+    padding: 0.55rem 1.4rem;
+    border-radius: 4px;
+    border: none;
+    text-transform: uppercase;
+    font-weight: 500;
+    transition: 0.3s ease;
+    width: 181px;
+    height: 46px;
+
+    &:hover {
+        background-color: #222;
+    }
 }

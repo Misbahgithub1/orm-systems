@@ -1,7 +1,9 @@
-// src/app/layout.tsx
+
 import type { Metadata } from "next";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./globals.scss";
+import NavbarComponent from "./components/Navbar/Navbar";
+import Footer from "./components/Footer/Footer";
 
 export const metadata: Metadata = {
   title: "Next.js eCommerce Frontend",
@@ -17,7 +19,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
       </head>
       <body>
+        <NavbarComponent />
         {children}
+
+        <Footer />
       </body>
     </html>
   );

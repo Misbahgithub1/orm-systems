@@ -116,39 +116,10 @@ input, textarea, select {
   margin-bottom: 1rem;
 }
 
-.heading-xl { font-size: 4rem; }       /* 64px */
-.heading-lg { font-size: 2.625rem; }   /* 42px */
-.heading-md { font-size: 1.5625rem; }  /* 25px */
+.heading-xl { font-size: 4rem !important; }       /* 64px */
+.heading-lg { font-size: 2.625rem !important; }   /* 42px */
+.heading-md { font-size: 1.5625rem !important; }  /* 25px */
 
 
-
-.nav-item {
-  font-family: 'FormaDJRMicro', var(--font-sans);
-  font-size: 0.875rem;       /* 14px */
-  font-weight: 500;          /* medium */
-  color: var(--color-text);  /* default black */
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  transition: color 0.3s ease, background-color 0.3s ease;
-
-
-  &:hover {
-    color: var(--color-accent, #2563eb);
-    background-color: rgba(37, 99, 235, 0.1); /* light accent bg */
-  }
-
-  &:focus {
-    outline: 2px solid var(--color-accent, #2563eb);
-    outline-offset: 2px;
-  }
-
-
-  &.active {
-    color: #fff;
-    background-color: var(--color-accent, #2563eb);
-  }
-}
 
 
