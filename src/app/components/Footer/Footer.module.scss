@@ -1,4 +1,4 @@
-@import "../../styles/_variables.scss";
+@use "../../styles/variables" as *;
 
 .footerWrapper {
   background-color: #000000;
@@ -13,11 +13,10 @@
 }
 
 .logo {
-  font-size: 1.5rem;
-  font-weight: 700;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
   margin-bottom: 1.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .description {

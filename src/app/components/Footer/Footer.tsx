@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
+import Image from "next/image";
 import {
   Telephone,
   Facebook,
@@ -17,7 +18,14 @@ const Footer = () => {
         <Row className="justify-content-center">
           <Col lg={10}>
             <div className={styles.topSection}>
-              <div className={styles.logo}>ORM SYSTEMS</div>
+              <div className={styles.logo}>
+                <Image
+                  src="/images/logo.png"
+                  alt="ORM Systems"
+                  width={140}
+                  height={40}
+                />
+              </div>
               <p className={styles.description}>
                 Maecenas et vestibulum dolor. Proin orci mauris, fermentum quis
                 turpis non, consectetur pretium dui. Duis congue sollicitudin

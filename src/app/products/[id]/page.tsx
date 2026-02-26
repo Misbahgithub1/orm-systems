@@ -4,14 +4,11 @@ import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Form, Spinner, Badge } from "react-bootstrap";
 import { useRouter, useParams } from "next/navigation";
 import Image from "next/image";
-import { StarFill, Heart, Search } from "react-bootstrap-icons";
+import { StarFill, Star, Heart, Search } from "react-bootstrap-icons";
 import styles from "./ProductDetailPage.module.scss";
 import AddToCartButton from "../../components/AddToCartButton/AddToCartButton";
 import { Product, getAllProducts } from "../../../lib/api/products";
-import {
-  getProductById,
-  getRelatedProducts,
-} from "../../../lib/api/productService";
+import { getProductById } from "../../../lib/api/productService";
 
 const ProductDetailPage: React.FC = () => {
   const router = useRouter();
@@ -19,11 +16,8 @@ const ProductDetailPage: React.FC = () => {
   const productId = params?.id;
 
   const [product, setProduct] = useState<Product | null>(null);
-  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
   const [loadingProduct, setLoadingProduct] = useState(false);
-  const [loadingRelated, setLoadingRelated] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [relatedError, setRelatedError] = useState<string | null>(null);
   const [quantity, setQuantity] = useState<number>(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
@@ -51,26 +45,6 @@ const ProductDetailPage: React.FC = () => {
 
     fetchProduct();
   }, [productId]);
-
-  useEffect(() => {
-    const fetchRelated = async () => {
-      if (!product) return;
-
-      try {
-        setLoadingRelated(true);
-        setRelatedError(null);
-        const data = await getRelatedProducts(product);
-        setRelatedProducts(data);
-      } catch (err) {
-        console.error(err);
-        setRelatedError("Unable to load related products.");
-      } finally {
-        setLoadingRelated(false);
-      }
-    };
-
-    fetchRelated();
-  }, [product]);
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -200,17 +174,33 @@ const ProductDetailPage: React.FC = () => {
 
                 <Col xs={12} md={7} className={styles.detailsCol}>
                   <div className={styles.titleRow}>
-                    <h1 className={styles.title}>{product.title}</h1>
-                    <p className={styles.subtitle}>{product.description}</p>
+                    <h1 className={styles.productName}>{product.title}</h1>
+                    <p className={styles.fullName}>{product.description}</p>
                   </div>
 
                   <div className={styles.ratingRow}>
-                    <span className={styles.ratingStars}>
-                      <StarFill size={16} />{" "}
+                    <span className={styles.starRow}>
+                      {Array.from({ length: 5 }).map((_, index) =>
+                        index < Math.round(product.rating?.rate ?? 0) ? (
+                          <StarFill
+                            key={index}
+                            className={styles.starFilled}
+                            size={18}
+                          />
+                        ) : (
+                          <Star
+                            key={index}
+                            className={styles.starEmpty}
+                            size={18}
+                          />
+                        )
+                      )}
+                    </span>
+                    <span className={styles.ratingValue}>
                       {product.rating?.rate.toFixed(1) ?? "0.0"}
                     </span>
                     <span className={styles.ratingCount}>
-                      ({product.rating?.count ?? 0} reviews)
+                      ({product.rating?.count ?? 0})
                     </span>
                   </div>
 
@@ -228,8 +218,9 @@ const ProductDetailPage: React.FC = () => {
                       <span className={styles.price}>
                         ${product.price.toFixed(2)}
                       </span>
-                      <span className={styles.priceSubtle}>Incl. taxes</span>
-                      <Badge bg="success">In stock</Badge>
+                      <Badge bg="success" className={styles.CustomBadge}>
+      27% off
+    </Badge>
                     </div>
                     <div className={styles.quantityRow}>
                       
