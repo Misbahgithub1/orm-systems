@@ -6,7 +6,7 @@ import NavbarComponent from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 
 export const metadata: Metadata = {
-  title: "Next.js eCommerce Frontend",
+  title: "ORM Systems",
   description: "A pixel-perfect and fully responsive eCommerce frontend built with Next.js (App Router), implementing dynamic category listing, product filtering, search with debouncing, and product detail pages using FakeStore API. Designed with scalable architecture and clean state management.",
 };
 

@@ -1,15 +1,37 @@
 @import "../../styles/_variables.scss";
 
 .portfolioWrapper {
-  padding: 5rem 0;
+  padding: 4rem 0;
   background-color: #f9f9f9;
 
   h2 {
-    text-align: center;
-    font-size: $heading-lg;
-    font-weight: 400;
-    margin-bottom: 3rem;
+    font-family: 'Poppins', sans-serif;
+    text-align: left;
+    font-size: 2rem;
+    font-weight: 900;
+    margin-bottom: 1rem;
     color: #111;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 0.75rem;
+    z-index: 1; // text layer
+  
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 1.5rem;
+      width: 525px;
+      height: 200px;
+      background-image: url("/images/portfolio.png");
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: left bottom;
+      opacity: 0.5;
+      pointer-events: none;
+  
+      z-index: -1; // image behind text
+    }
   }
 }
 
@@ -24,25 +46,29 @@
   border-radius: 18px;
   overflow: hidden;
   background-color: #020617;
-  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.18);
+  // box-shadow: 0 12px 30px rgba(15, 23, 42, 0.18);
   transform: translateY(0) scale(1);
   transition:
     transform 0.25s ease-out,
     box-shadow 0.25s ease-out;
-  aspect-ratio: 4 / 3;
+  // base ratio used for single-column cards
+  aspect-ratio: 3 / 4;
 }
 
 .imageCardWide {
   grid-column: span 2;
-  aspect-ratio: 16 / 9;
+  // 2x base ratio so wide + single-column share same row height
+  aspect-ratio: 3 / 2;
 }
 
 .imageCardTall {
+  // Uses the same ratio as the base card so it lines up in height
   aspect-ratio: 3 / 4;
 }
 
 .imageCardSquare {
-  aspect-ratio: 1 / 1;
+  // Match base ratio so all rows share the same height
+  aspect-ratio: 3 / 3;
 }
 
 .image {
