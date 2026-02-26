@@ -3,7 +3,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Container, Row, Col, Form, Button, Spinner, Badge } from "react-bootstrap";
 import { useRouter } from "next/navigation";
-import { ChevronUp, ChevronDown, StarFill, Star } from "react-bootstrap-icons";
+import { ChevronUp, ChevronDown, StarFill, Star, StarHalf } from "react-bootstrap-icons";
 import styles from "./CategoryPage.module.scss";
 import AddToCartButton from "../components/AddToCartButton/AddToCartButton";
 import { Product, getCategories, getProductsByCategory } from "../../lib/api/products";
@@ -194,6 +194,25 @@ const CategoryListingPage: React.FC = () => {
     );
   };
 
+  const renderProductStars = (rate: number) => {
+    const rounded = Math.round((rate ?? 0) * 2) / 2;
+    const full = Math.floor(rounded);
+    const half = rounded - full === 0.5;
+    return (
+      <div className={styles.starRow}>
+        {[1, 2, 3, 4, 5].map((i) => {
+          if (i <= full) {
+            return <StarFill key={i} className={styles.starFilled} />;
+          }
+          if (half && i === full + 1) {
+            return <StarHalf key={i} className={styles.starFilled} />;
+          }
+          return <Star key={i} className={styles.starEmpty} />;
+        })}
+      </div>
+    );
+  };
+
   return (
     <section className={styles.pageWrapper}>
       <Container>
@@ -371,9 +390,8 @@ const CategoryListingPage: React.FC = () => {
                         </p>
                         <div className={styles.productMetaRow}>
                           <div className={styles.ratingWrapper}>
-                            <span className={styles.ratingStars}>
-                              ★ {product.rating?.rate.toFixed(1)}
-                            </span>
+                            {renderProductStars(product.rating?.rate ?? 0)}
+                            <span>{product.rating?.rate.toFixed(1)}</span>
                             <span className={styles.ratingCount}>
                               ({product.rating?.count})
                             </span>
