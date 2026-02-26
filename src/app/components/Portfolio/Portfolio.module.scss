@@ -1,0 +1,54 @@
+@import '../../styles/_variables.scss';
+
+.portfolioWrapper {
+  padding: 5rem 0;
+  background-color: #fff;
+
+  h2 {
+    text-align: center;
+    font-size: $heading-lg;
+    font-weight: 500;
+    margin-bottom: 3rem;
+    color: #111;
+  }
+
+  .rowImages {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+
+    .imageWrapper {
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px;
+      transition: transform 0.3s, box-shadow 0.3s;
+
+      &:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+      }
+
+      img {
+        object-fit: cover;
+      }
+    }
+  }
+}
+
+/* Responsive */
+@media (max-width: 992px) { /* tablet */
+  .rowImages {
+    .imageWrapper {
+      flex: 1 1 48%; /* 2 per row on tablet */
+    }
+  }
+}
+
+@media (max-width: 768px) { /* mobile */
+  .rowImages {
+    .imageWrapper {
+      flex: 1 1 100%; /* stack images on mobile */
+    }
+  }
+}
