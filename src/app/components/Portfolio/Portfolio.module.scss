@@ -39,10 +39,18 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1.25rem;
+  align-items: stretch;
+  // Base + per-row heights (desktop). Row-1 and Row-2 are intentionally taller
+  // to reduce cropping while keeping both tiles in a row perfectly equal height.
+  --row-base: clamp(220px, 22vw, 320px);
+  --row-1: clamp(280px, 26vw, 420px);
+  --row-2: clamp(260px, 24vw, 380px);
+  grid-auto-rows: auto;
 }
 
 .imageCard {
   position: relative;
+  width: 100%;
   border-radius: 18px;
   overflow: hidden;
   background-color: #020617;
@@ -51,28 +59,35 @@
   transition:
     transform 0.25s ease-out,
     box-shadow 0.25s ease-out;
-  // base ratio used for single-column cards
-  aspect-ratio: 3 / 4;
+  height: var(--row-base);
 }
 
 .imageCardWide {
   grid-column: span 2;
-  // 2x base ratio so wide + single-column share same row height
-  aspect-ratio: 3 / 2;
 }
 
-.imageCardTall {
-  // Uses the same ratio as the base card so it lines up in height
-  aspect-ratio: 3 / 4;
-}
+
 
 .imageCardSquare {
-  // Match base ratio so all rows share the same height
-  aspect-ratio: 3 / 3;
+  height: auto;
+  aspect-ratio: 1 / 1;
+}
+
+// Force equal heights per desktop row (matches sample: 2 tiles per row).
+// 1-2 => row 1 (Portfolio1 + Portfolio2), 3-4 => row 2 (Portfolio3 + Portfolio4)
+.portfolioGrid > .imageCard:nth-child(1),
+.portfolioGrid > .imageCard:nth-child(2) {
+  height: var(--row-1);
+}
+
+.portfolioGrid > .imageCard:nth-child(3),
+.portfolioGrid > .imageCard:nth-child(4) {
+  height: var(--row-2);
 }
 
 .image {
   object-fit: cover;
+  object-position: center;
 }
 
 .imageCard:hover {
@@ -87,6 +102,9 @@
 
   .portfolioGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    --row-base: clamp(200px, 30vw, 300px);
+    --row-1: var(--row-base);
+    --row-2: var(--row-base);
   }
 }
 
@@ -97,6 +115,9 @@
 
   .portfolioGrid {
     grid-template-columns: 1fr;
+    --row-base: clamp(200px, 56vw, 320px);
+    --row-1: var(--row-base);
+    --row-2: var(--row-base);
   }
 
   .imageCard {
