@@ -3,6 +3,7 @@
 .portfolioWrapper {
   padding: 4rem 0;
   background-color: #f9f9f9;
+  overflow-x: hidden;
 
   h2 {
     font-family: 'Poppins', sans-serif;
@@ -43,7 +44,7 @@
   // Base + per-row heights (desktop). Row-1 and Row-2 are intentionally taller
   // to reduce cropping while keeping both tiles in a row perfectly equal height.
   --row-base: clamp(220px, 22vw, 320px);
-  --row-1: clamp(280px, 26vw, 420px);
+  --row-1: clamp(320px, 30vw, 480px);
   --row-2: clamp(260px, 24vw, 380px);
   grid-auto-rows: auto;
 }
@@ -98,6 +99,10 @@
 @media (max-width: 991.98px) {
   .portfolioWrapper {
     padding: 3.5rem 0;
+
+
+
+    
   }
 
   .portfolioGrid {
@@ -111,6 +116,12 @@
 @media (max-width: 767.98px) {
   .portfolioWrapper {
     padding: 3rem 1rem;
+
+    h2 {
+      &::after {
+        display: none;
+      }
+    }
   }
 
   .portfolioGrid {
@@ -118,6 +129,14 @@
     --row-base: clamp(200px, 56vw, 320px);
     --row-1: var(--row-base);
     --row-2: var(--row-base);
+  }
+
+  // On mobile: force every tile to the same height (no special row heights)
+  .portfolioGrid > .imageCard:nth-child(1),
+  .portfolioGrid > .imageCard:nth-child(2),
+  .portfolioGrid > .imageCard:nth-child(3),
+  .portfolioGrid > .imageCard:nth-child(4) {
+    height: var(--row-base);
   }
 
   .imageCard {
