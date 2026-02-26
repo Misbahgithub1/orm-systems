@@ -1,6 +1,7 @@
 
 import Hero from "./components/hero/Hero";
-import styles from "./page.module.scss";
+import FeaturesSection from "./components/sections/FeaturesSection";
+// import styles from "./page.module.scss";
 
 
 export default function Home() {
@@ -9,6 +10,8 @@ export default function Home() {
   
 
 <Hero />
+
+<FeaturesSection />
     </>
   );
 }
