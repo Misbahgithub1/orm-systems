@@ -252,29 +252,6 @@
   border-radius: 2px;
 }
 
-.addToCartButton {
-  border-radius: 2px;
-  width: 162px;
-  height: 46px;
-  font-size: $body-lg;
-  background-color: #165DBA !important;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s ease; // smooth hover effect
-
-  &:hover {
-    background-color: #0F4A90; // slightly darker shade
-    transform: translateY(-2px); // subtle lift
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); // depth effect
-  }
-
-  &:active {
-    transform: translateY(0); // click press reset
-    box-shadow: none;
-  }
-}
-
 .loadMoreWrapper {
   display: flex;
   justify-content: center;
@@ -348,9 +325,5 @@
 
   .priceWrapper {
     align-items: flex-start;
-  }
-
-  .addToCartButton {
-    width: 100%;
   }
 }

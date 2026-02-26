@@ -1,0 +1,31 @@
+@import "../../styles/_variables.scss";
+
+.addToCartButton {
+  border-radius: 2px;
+  width: 162px;
+  height: 46px;
+  font-size: $body-lg;
+  background-color: #165dba !important;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: #0f4a90;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: none;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .addToCartButton {
+    width: 100%;
+  }
+}
+

@@ -5,27 +5,10 @@ import { Container, Row, Col, Form, Button, Spinner, Badge } from "react-bootstr
 import { useRouter } from "next/navigation";
 import { ChevronUp, ChevronDown, StarFill, Star } from "react-bootstrap-icons";
 import styles from "./CategoryPage.module.scss";
-
-interface Rating {
-  rate: number;
-  count: number;
-}
-
-export interface Product {
-  id: number;
-  title: string;
-  price: number;
-  category: string;
-  description: string;
-  image: string;
-  rating: Rating;
-}
+import AddToCartButton from "../components/AddToCartButton/AddToCartButton";
+import { Product, getCategories, getProductsByCategory } from "../../lib/api/products";
 
 type RatingFilterValue = "all" | "4plus" | "3plus" | "2plus";
-
-const CATEGORY_API = "https://fakestoreapi.com/products/categories";
-const PRODUCTS_BY_CATEGORY_API = (category: string) =>
-  `https://fakestoreapi.com/products/category/${encodeURIComponent(category)}`;
 
 const PAGE_SIZE = 4;
 
@@ -62,12 +45,11 @@ const CategoryListingPage: React.FC = () => {
   };
 
   useEffect(() => {
-    const fetchCategories = async () => {
+    const fetchCategoriesData = async () => {
       try {
         setLoadingCategories(true);
-        const res = await fetch(CATEGORY_API);
-        if (!res.ok) throw new Error("Failed to load categories");
-        const data: string[] = await res.json();
+        setError(null);
+        const data = await getCategories();
         setCategories(data);
         if (data.length > 0) {
           setSelectedCategory(data[0]);
@@ -80,7 +62,7 @@ const CategoryListingPage: React.FC = () => {
       }
     };
 
-    fetchCategories();
+    fetchCategoriesData();
   }, []);
 
   useEffect(() => {
@@ -90,9 +72,7 @@ const CategoryListingPage: React.FC = () => {
       try {
         setLoadingProducts(true);
         setError(null);
-        const res = await fetch(PRODUCTS_BY_CATEGORY_API(selectedCategory));
-        if (!res.ok) throw new Error("Failed to load products");
-        const data: Product[] = await res.json();
+        const data = await getProductsByCategory(selectedCategory);
         setProducts(data);
         setVisibleCount(PAGE_SIZE);
 
@@ -375,30 +355,19 @@ const CategoryListingPage: React.FC = () => {
                             </span>
                           </div>
                           <div className={styles.priceWrapper}>
-                           <div className={styles.priceAlignment}>
-                           <span className={styles.price}>
-                              ${product.price.toFixed(2)}
-                            </span>
-                            <Badge bg="success" className={styles.inStockBadge}>
-                              In stock
-                            </Badge>
-                           </div>
-                         <div>
-                         <Button
-                            variant="primary"
-                            size="sm"
-                            className={styles.addToCartButton}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                            }}
-                          >
-                            Add to Cart
-                          </Button>
-                         </div>
-
+                            <div className={styles.priceAlignment}>
+                              <span className={styles.price}>
+                                ${product.price.toFixed(2)}
+                              </span>
+                              <Badge
+                                bg="success"
+                                className={styles.inStockBadge}
+                              >
+                                In stock
+                              </Badge>
+                            </div>
+                            <AddToCartButton />
                           </div>
-                      
-                      
                         </div>
                     
                       </div>

@@ -1,0 +1,172 @@
+@import "../../styles/_variables.scss";
+
+.footerWrapper {
+  background-color: #000000;
+  color: #ffffff;
+  padding: 3rem 0 2rem;
+  font-family: inherit;
+}
+
+.topSection {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+}
+
+.description {
+  max-width: 640px;
+  margin: 0 auto 2rem;
+  font-size: 0.9rem;
+  color: #e5e7eb;
+  line-height: 1.6;
+}
+
+.infoRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  border-top: 1px solid #1f2937;
+  padding-top: 1.25rem;
+}
+
+.contactBlock {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.contactIcon {
+  color: #ffffff;
+}
+
+.contactText {
+  color: #f9fafb;
+}
+
+.navLinks {
+  display: flex;
+  gap: 1.75rem;
+  font-size: 0.9rem;
+}
+
+.navLink {
+  color: #f9fafb;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.emailBlock {
+  font-size: 0.9rem;
+}
+
+.emailLink {
+  color: #f9fafb;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.bottomRow {
+  border-top: 1px solid #1f2937;
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+  align-items: center;
+}
+
+.bottomLeft {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.bottomRight {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.copyright {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+.socialRow {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.socialButton {
+  width: 28px;
+  height: 28px;
+  border-radius: 2px;
+  border: 1px solid #4b5563;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #f9fafb;
+  text-decoration: none;
+  font-size: 0.8rem;
+
+  &:hover {
+    background-color: #111827;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .infoRow {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .contactBlock,
+  .emailBlock {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .navLinks {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .bottomLeft,
+  .bottomRight {
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 0.75rem;
+  }
+
+  .socialRow {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .footerWrapper {
+    padding: 2.5rem 0 1.5rem;
+  }
+
+  .logo {
+    font-size: 1.25rem;
+  }
+
+  .description {
+    font-size: 0.85rem;
+  }
+}
