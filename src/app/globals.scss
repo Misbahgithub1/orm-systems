@@ -2,12 +2,44 @@
 /* Global CSS Reset & Base Styles */
 /* ============================= */
 
+
 /* Font settings */
 :root {
   --font-sans: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --color-text: #000000;
+  --color-accent: #2563eb; /* default accent for nav hover/active */
 }
 
-/* Box-sizing & universal reset */
+
+/* FormaDJRMicro Bold */
+@font-face {
+  font-family: 'FormaDJRMicro';
+   src: url('/fonts/forma/FormaDJRMicro-Bold-Testing.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: 'FormaDJRMicro';
+   src: url('/fonts/forma/FormaDJRMicro-Regular-Testing.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+/* FormaDJRMicro Medium */
+@font-face {
+  font-family: 'FormaDJRMicro';
+  src: url('/fonts/forma/FormaDJRMicro-Medium-Testing.woff2') format('woff2');
+  font-weight: 500;  
+  font-style: normal;
+  font-display: swap;
+}
+
+
 *,
 *::before,
 *::after {
@@ -19,7 +51,7 @@
 /* HTML & body full height, smooth font rendering */
 html, body, #__next {
   height: 100%;
-  font-family: var(--font-sans);
+  font-family: 'FormaDJRMicro', var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   scroll-behavior: smooth;
@@ -29,6 +61,7 @@ html, body, #__next {
 body {
   font-weight: 400;
   line-height: 1.5;
+  font-size: 1rem; /* 16px */
 }
 
 /* Default link styling */
@@ -66,6 +99,7 @@ input, textarea, select {
 
 /* Paragraph global class */
 .paragraph {
+   font-family: 'FormaDJRMicro', var(--font-sans);
   font-size: 1rem;        /* 16px */
   font-weight: 400;       /* Regular */
   line-height: 1.6;
@@ -75,6 +109,7 @@ input, textarea, select {
 
 /* Headings global classes */
 .heading {
+   font-family: 'FormaDJRMicro', var(--font-sans);
   font-weight: 700;
   color: var(--color-text);
   line-height: 1.2;
@@ -114,3 +149,5 @@ input, textarea, select {
     background-color: var(--color-accent, #2563eb);
   }
 }
+
+

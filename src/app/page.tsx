@@ -4,7 +4,7 @@ import styles from "./page.module.scss";
 export default function Home() {
   return (
     <> 
-    <p>Welcome to the ORM Systems Dashboard</p> 
+    <p className="paragraph red">Welcome to the ORM Systems Dashboard Data Center, Infrastructure</p> 
     </>
   );
 }
