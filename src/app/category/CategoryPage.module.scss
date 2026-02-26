@@ -2,7 +2,7 @@
 
 .pageWrapper {
   padding: 3rem 0;
-  background-color: #f5f7fb;
+  background-color: #fff;
 }
 
 .sidebarCol {
@@ -180,24 +180,52 @@
 
 .priceWrapper {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
+  align-items: center;
   gap: 0.25rem;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .price {
-  font-size: 1.05rem;
+  font-size: $heading-md;
   font-weight: 700;
   color: #111827;
+
 }
 
+.priceAlignment{
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: center;
+}
 .inStockBadge {
-  font-size: 0.7rem;
+  font-size: $body-sm;
   padding: 0.25rem 0.5rem;
+  border-radius: 2px;
 }
 
 .addToCartButton {
-  justify-self: flex-end;
+  border-radius: 2px;
+  width: 162px;
+  height: 46px;
+  font-size: $body-lg;
+  background-color: #165DBA !important;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease; // smooth hover effect
+
+  &:hover {
+    background-color: #0F4A90; // slightly darker shade
+    transform: translateY(-2px); // subtle lift
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); // depth effect
+  }
+
+  &:active {
+    transform: translateY(0); // click press reset
+    box-shadow: none;
+  }
 }
 
 .loadMoreWrapper {
@@ -279,4 +307,3 @@
     width: 100%;
   }
 }
-

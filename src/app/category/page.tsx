@@ -3,7 +3,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Container, Row, Col, Form, Button, Spinner, Badge } from "react-bootstrap";
 import { useRouter } from "next/navigation";
-import styles from "./CategoryListingPage.module.scss";
+import styles from "./CategoryPage.module.scss";
 
 interface Rating {
   rate: number;
@@ -319,14 +319,16 @@ const CategoryListingPage: React.FC = () => {
                             </span>
                           </div>
                           <div className={styles.priceWrapper}>
-                            <span className={styles.price}>
+                           <div className={styles.priceAlignment}>
+                           <span className={styles.price}>
                               ${product.price.toFixed(2)}
                             </span>
                             <Badge bg="success" className={styles.inStockBadge}>
                               In stock
                             </Badge>
-                          </div>
-                          <Button
+                           </div>
+                         <div>
+                         <Button
                             variant="primary"
                             size="sm"
                             className={styles.addToCartButton}
@@ -336,7 +338,13 @@ const CategoryListingPage: React.FC = () => {
                           >
                             Add to Cart
                           </Button>
+                         </div>
+
+                          </div>
+                      
+                      
                         </div>
+                    
                       </div>
                     </div>
                   ))}
