@@ -1,54 +1,83 @@
-@import '../../styles/_variables.scss';
+@import "../../styles/_variables.scss";
 
 .portfolioWrapper {
   padding: 5rem 0;
-  background-color: #fff;
+  background-color: #f9f9f9;
 
   h2 {
     text-align: center;
     font-size: $heading-lg;
-    font-weight: 500;
+    font-weight: 400;
     margin-bottom: 3rem;
     color: #111;
   }
+}
 
-  .rowImages {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-bottom: 1rem;
+.portfolioGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
+}
 
-    .imageWrapper {
-      position: relative;
-      overflow: hidden;
-      border-radius: 12px;
-      transition: transform 0.3s, box-shadow 0.3s;
+.imageCard {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  background-color: #020617;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.18);
+  transform: translateY(0) scale(1);
+  transition:
+    transform 0.25s ease-out,
+    box-shadow 0.25s ease-out;
+  aspect-ratio: 4 / 3;
+}
 
-      &:hover {
-        transform: scale(1.05);
-        box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-      }
+.imageCardWide {
+  grid-column: span 2;
+  aspect-ratio: 16 / 9;
+}
 
-      img {
-        object-fit: cover;
-      }
-    }
+.imageCardTall {
+  aspect-ratio: 3 / 4;
+}
+
+.imageCardSquare {
+  aspect-ratio: 1 / 1;
+}
+
+.image {
+  object-fit: cover;
+}
+
+.imageCard:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.3);
+}
+
+@media (max-width: 991.98px) {
+  .portfolioWrapper {
+    padding: 3.5rem 0;
+  }
+
+  .portfolioGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-/* Responsive */
-@media (max-width: 992px) { /* tablet */
-  .rowImages {
-    .imageWrapper {
-      flex: 1 1 48%; /* 2 per row on tablet */
-    }
+@media (max-width: 767.98px) {
+  .portfolioWrapper {
+    padding: 3rem 1rem;
   }
-}
 
-@media (max-width: 768px) { /* mobile */
-  .rowImages {
-    .imageWrapper {
-      flex: 1 1 100%; /* stack images on mobile */
-    }
+  .portfolioGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .imageCard {
+    border-radius: 14px;
+  }
+
+  .imageCardWide {
+    grid-column: auto;
   }
 }

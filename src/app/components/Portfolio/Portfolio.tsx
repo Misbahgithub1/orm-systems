@@ -2,50 +2,66 @@
 
 import React from "react";
 import { Container } from "react-bootstrap";
-import Image from "next/image";
+import Image, { type StaticImageData } from "next/image";
 import styles from "./Portfolio.module.scss";
 
-const Portfolio = () => {
+export interface PortfolioItem {
+  src: StaticImageData;
+  alt: string;
+  layout?: "default" | "wide" | "tall" | "square";
+}
+
+export interface PortfolioProps {
+  title?: string;
+  items: PortfolioItem[];
+  containerFluid?: boolean;
+}
+
+const getCardLayoutClass = (layout: PortfolioItem["layout"]) => {
+  switch (layout) {
+    case "wide":
+      return styles.imageCardWide;
+    case "tall":
+      return styles.imageCardTall;
+    case "square":
+      return styles.imageCardSquare;
+    default:
+      return "";
+  }
+};
+
+const PortfolioSection: React.FC<PortfolioProps> = ({
+  title = "My Awesome Portfolio",
+  items,
+  containerFluid = false,
+}) => {
   return (
     <section className={styles.portfolioWrapper}>
-      <Container>
-        <h2>My Awesome Portfolio</h2>
+      <Container fluid={containerFluid}>
+        <h2>{title}</h2>
 
-        {/* First Row: 2 images different widths */}
-        <div className={styles.rowImages}>
-          <div className={styles.imageWrapper} style={{ flex: "2 1 60%" }}>
-            <Image src="/images/portfolio1.png" alt="Portfolio 1" width={800} height={500} />
-          </div>
-          <div className={styles.imageWrapper} style={{ flex: "1 1 35%" }}>
-            <Image src="/images/portfolio2.png" alt="Portfolio 2" width={400} height={500} />
-          </div>
-        </div>
-
-        {/* Second Row: 2 images different widths */}
-        <div className={styles.rowImages}>
-          <div className={styles.imageWrapper} style={{ flex: "1 1 35%" }}>
-            <Image src="/images/portfolio3.png" alt="Portfolio 3" width={400} height={400} />
-          </div>
-          <div className={styles.imageWrapper} style={{ flex: "2 1 60%" }}>
-            <Image src="/images/portfolio4.png" alt="Portfolio 4" width={800} height={400} />
-          </div>
-        </div>
-
-        {/* Third Row: 3 images equal width */}
-        <div className={styles.rowImages}>
-          <div className={styles.imageWrapper} style={{ flex: "1 1 32%" }}>
-            <Image src="/images/portfolio5.png" alt="Portfolio 5" width={400} height={400} />
-          </div>
-          <div className={styles.imageWrapper} style={{ flex: "1 1 32%" }}>
-            <Image src="/images/portfolio6.png" alt="Portfolio 6" width={400} height={400} />
-          </div>
-          <div className={styles.imageWrapper} style={{ flex: "1 1 32%" }}>
-            <Image src="/images/portfolio7.png" alt="Portfolio 7" width={400} height={400} />
-          </div>
+        <div className={styles.portfolioGrid}>
+          {items.map((item, index) => (
+            <div
+              key={`${item.alt}-${index}`}
+              className={`${styles.imageCard} ${getCardLayoutClass(
+                item.layout
+              )}`}
+            >
+              <Image
+                src={item.src}
+                alt={item.alt}
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className={styles.image}
+              />
+            </div>
+          ))}
         </div>
       </Container>
     </section>
   );
 };
 
-export default Portfolio;
+export default PortfolioSection;
+export { PortfolioSection };
