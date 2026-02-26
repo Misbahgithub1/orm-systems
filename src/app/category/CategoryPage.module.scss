@@ -40,18 +40,65 @@
 }
 
 .filterBlockHeader {
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 600;
   color: #111827;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.filterContent {
+  padding-bottom: 0.5rem;
+}
+
+.seeMore {
+  font-size: 0.875rem;
+  color: #165dba;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  display: inline-block;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.starRow {
+  display: flex;
+  gap: 2px;
+}
+
+.starFilled {
+  color: #f59e0b;
+}
+
+.starEmpty {
+  color: #d1d5db;
+}
+
+.ratingLabelText {
+  font-size: 0.9rem;
+  color: #4b5563;
 }
 
 .filterOption {
   font-size: 0.9rem;
   color: #374151;
+  margin-bottom: 0.5rem;
 
-  &:not(:last-child) {
-    margin-bottom: 0.25rem;
+  :global(.form-check-input) {
+    cursor: pointer;
+    &:checked {
+      background-color: #165dba;
+      border-color: #165dba;
+    }
+  }
+
+  :global(.form-check-label) {
+    cursor: pointer;
+    width: 100%;
   }
 }
 

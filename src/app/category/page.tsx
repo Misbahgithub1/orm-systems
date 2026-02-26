@@ -3,6 +3,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Container, Row, Col, Form, Button, Spinner, Badge } from "react-bootstrap";
 import { useRouter } from "next/navigation";
+import { ChevronUp, ChevronDown, StarFill, Star } from "react-bootstrap-icons";
 import styles from "./CategoryPage.module.scss";
 
 interface Rating {
@@ -45,6 +46,20 @@ const CategoryListingPage: React.FC = () => {
   const [priceBounds, setPriceBounds] = useState<{ min: number; max: number } | null>(null);
   const [priceMin, setPriceMin] = useState<number | null>(null);
   const [priceMax, setPriceMax] = useState<number | null>(null);
+
+  // Collapsible state
+  const [expandedSections, setExpandedSections] = useState({
+    category: true,
+    rating: true,
+    price: true,
+  });
+
+  // See more state
+  const [showAllCategories, setShowAllCategories] = useState(false);
+
+  const toggleSection = (section: keyof typeof expandedSections) => {
+    setExpandedSections((prev) => ({ ...prev, [section]: !prev[section] }));
+  };
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -161,113 +176,154 @@ const CategoryListingPage: React.FC = () => {
 
   const isLoadMoreVisible = visibleProducts.length < filteredProducts.length;
 
+  const renderStars = (rating: number) => {
+    return (
+      <div className={styles.starRow}>
+        {[...Array(5)].map((_, i) => (
+          i < rating ? (
+            <StarFill key={i} className={styles.starFilled} />
+          ) : (
+            <Star key={i} className={styles.starEmpty} />
+          )
+        ))}
+      </div>
+    );
+  };
+
   return (
     <section className={styles.pageWrapper}>
       <Container>
-        <Row>
-          <Col xs={12} md={3} className={styles.sidebarCol}>
+        <Row className="flex-column flex-md-row">
+          <Col xs={12} md={3} className={`${styles.sidebarCol} order-1`}>
             <div className={styles.filterPanel}>
               <h3 className={styles.filterTitle}>Filter</h3>
 
               <div className={styles.filterBlock}>
-                <div className={styles.filterBlockHeader}>Category</div>
-                {loadingCategories ? (
-                  <Spinner animation="border" size="sm" />
-                ) : (
-                  <Form>
-                    {categories.map((cat) => (
-                      <Form.Check
-                        key={cat}
-                        type="radio"
-                        name="category"
-                        id={`cat-${cat}`}
-                        label={cat}
-                        checked={cat === selectedCategory}
-                        onChange={() => handleCategoryChange(cat)}
-                        className={styles.filterOption}
-                      />
-                    ))}
-                  </Form>
+                <div 
+                  className={styles.filterBlockHeader} 
+                  onClick={() => toggleSection("category")}
+                  style={{ cursor: "pointer" }}
+                >
+                  <span>Category</span>
+                  {expandedSections.category ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+                </div>
+                {expandedSections.category && (
+                  <div className={styles.filterContent}>
+                    {loadingCategories ? (
+                      <Spinner animation="border" size="sm" />
+                    ) : (
+                      <Form>
+                        {(showAllCategories ? categories : categories.slice(0, 3)).map((cat) => (
+                          <Form.Check
+                            key={cat}
+                            type="radio"
+                            name="category"
+                            id={`cat-${cat}`}
+                            label={cat}
+                            checked={cat === selectedCategory}
+                            onChange={() => handleCategoryChange(cat)}
+                            className={styles.filterOption}
+                          />
+                        ))}
+                        {categories.length > 3 && (
+                          <div 
+                            className={styles.seeMore} 
+                            onClick={() => setShowAllCategories(!showAllCategories)}
+                          >
+                            {showAllCategories ? "See less" : "See more"}
+                          </div>
+                        )}
+                      </Form>
+                    )}
+                  </div>
                 )}
               </div>
 
               <div className={styles.filterBlock}>
-                <div className={styles.filterBlockHeader}>Rating</div>
-                <Form>
-                  <Form.Check
-                    type="radio"
-                    name="rating"
-                    label="All ratings"
-                    id="rating-all"
-                    checked={ratingFilter === "all"}
-                    onChange={() => handleRatingChange("all")}
-                    className={styles.filterOption}
-                  />
-                  <Form.Check
-                    type="radio"
-                    name="rating"
-                    label="4 ★ & up"
-                    id="rating-4"
-                    checked={ratingFilter === "4plus"}
-                    onChange={() => handleRatingChange("4plus")}
-                    className={styles.filterOption}
-                  />
-                  <Form.Check
-                    type="radio"
-                    name="rating"
-                    label="3 ★ & up"
-                    id="rating-3"
-                    checked={ratingFilter === "3plus"}
-                    onChange={() => handleRatingChange("3plus")}
-                    className={styles.filterOption}
-                  />
-                  <Form.Check
-                    type="radio"
-                    name="rating"
-                    label="2 ★ & up"
-                    id="rating-2"
-                    checked={ratingFilter === "2plus"}
-                    onChange={() => handleRatingChange("2plus")}
-                    className={styles.filterOption}
-                  />
-                </Form>
+                <div 
+                  className={styles.filterBlockHeader} 
+                  onClick={() => toggleSection("rating")}
+                  style={{ cursor: "pointer" }}
+                >
+                  <span>Rating</span>
+                  {expandedSections.rating ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+                </div>
+                {expandedSections.rating && (
+                  <div className={styles.filterContent}>
+                    <Form>
+                      <Form.Check
+                        type="checkbox"
+                        name="rating"
+                        id="rating-all"
+                        label="All ratings"
+                        checked={ratingFilter === "all"}
+                        onChange={() => handleRatingChange("all")}
+                        className={styles.filterOption}
+                      />
+                      {[4, 3, 2].map((num) => (
+                        <Form.Check
+                          key={num}
+                          type="checkbox"
+                          name="rating"
+                          id={`rating-${num}`}
+                          label={
+                            <div className="d-flex align-items-center gap-2">
+                              {renderStars(num)}
+                              <span className={styles.ratingLabelText}></span>
+                            </div>
+                          }
+                          checked={ratingFilter === `${num}plus` as RatingFilterValue}
+                          onChange={() => handleRatingChange(`${num}plus` as RatingFilterValue)}
+                          className={styles.filterOption}
+                        />
+                      ))}
+                      <div className={styles.seeMore}>See more</div>
+                    </Form>
+                  </div>
+                )}
               </div>
 
               <div className={styles.filterBlock}>
-                <div className={styles.filterBlockHeader}>Price</div>
-                {priceBounds ? (
-                  <>
-                    <div className={styles.priceRangeRow}>
-                      <span>${priceBounds.min.toFixed(2)}</span>
-                      <span>${priceBounds.max.toFixed(2)}</span>
-                    </div>
-                    <Form.Range
-                      min={priceBounds.min}
-                      max={priceBounds.max}
-                      step={1}
-                      value={priceMin ?? priceBounds.min}
-                      onChange={(e) => handlePriceMinChange(Number(e.target.value))}
-                    />
-                    <Form.Range
-                      min={priceBounds.min}
-                      max={priceBounds.max}
-                      step={1}
-                      value={priceMax ?? priceBounds.max}
-                      onChange={(e) => handlePriceMaxChange(Number(e.target.value))}
-                    />
-                    <div className={styles.priceSelectedRow}>
-                      <span>From: ${priceMin?.toFixed(2)}</span>
-                      <span>To: ${priceMax?.toFixed(2)}</span>
-                    </div>
-                  </>
-                ) : (
-                  <span className={styles.mutedText}>No products to derive price range.</span>
+                <div 
+                  className={styles.filterBlockHeader} 
+                  onClick={() => toggleSection("price")}
+                  style={{ cursor: "pointer" }}
+                >
+                  <span>Price</span>
+                  {expandedSections.price ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+                </div>
+                {expandedSections.price && (
+                  <div className={styles.filterContent}>
+                    {priceBounds ? (
+                      <>
+                        <div className={styles.priceRangeRow}>
+                          <span>${priceBounds.min.toFixed(2)}</span>
+                          <span>${priceBounds.max.toFixed(2)}</span>
+                        </div>
+                        <Form.Range
+                          min={priceBounds.min}
+                          max={priceBounds.max}
+                          step={1}
+                          value={priceMin ?? priceBounds.min}
+                          onChange={(e) => handlePriceMinChange(Number(e.target.value))}
+                        />
+                        <div className={styles.priceSelectedRow}>
+                          <span>${(priceMin ?? priceBounds.min).toFixed(2)}</span>
+                          <span>-</span>
+                          <span>${(priceMax ?? priceBounds.max).toFixed(2)}</span>
+                        </div>
+                        <div className={styles.seeMore}>See more</div>
+                      </>
+                    ) : (
+                      <div className={styles.mutedText}>No price data</div>
+                    )}
+                  </div>
                 )}
               </div>
             </div>
           </Col>
 
-          <Col xs={12} md={9} className={styles.productsCol}>
+          <Col xs={12} md={9} className={`${styles.productsCol} order-2`}>
             <div className={styles.headerRow}>
               <h2 className={styles.pageTitle}>
                 {selectedCategory ? selectedCategory : "Products"}
