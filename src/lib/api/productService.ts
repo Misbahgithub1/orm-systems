@@ -1,3 +1,5 @@
+// PRODUCT SERVICE FILE
+
 import { Product, getProductsByCategory } from "./products";
 
 const BASE_URL = "https://fakestoreapi.com";

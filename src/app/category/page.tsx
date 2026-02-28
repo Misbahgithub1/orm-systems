@@ -29,7 +29,8 @@ const CategoryListingPage: React.FC = () => {
   const [priceBounds, setPriceBounds] = useState<{ min: number; max: number } | null>(null);
   const [priceMin, setPriceMin] = useState<number | null>(null);
   const [priceMax, setPriceMax] = useState<number | null>(null);
-
+const [debouncedPriceMin, setDebouncedPriceMin] = useState<number | null>(null);
+const [debouncedPriceMax, setDebouncedPriceMax] = useState<number | null>(null);
   // Collapsible state
   const [expandedSections, setExpandedSections] = useState({
     category: true,
@@ -67,6 +68,20 @@ const CategoryListingPage: React.FC = () => {
   const toggleSection = (section: keyof typeof expandedSections) => {
     setExpandedSections((prev) => ({ ...prev, [section]: !prev[section] }));
   };
+
+
+
+  useEffect(() => {
+  const timer = setTimeout(() => {
+    setDebouncedPriceMin(priceMin);
+    setDebouncedPriceMax(priceMax);
+  }, 400); // 400ms delay
+
+  return () => clearTimeout(timer);
+}, [priceMin, priceMax]);
+
+
+
 
   useEffect(() => {
     const fetchCategoriesData = async () => {
@@ -147,23 +162,49 @@ const CategoryListingPage: React.FC = () => {
     setVisibleCount(PAGE_SIZE);
   };
 
-  const filteredProducts = useMemo(() => {
-    let list = [...products];
+ const filteredProducts = useMemo(() => {
+  let list = [...products];
 
-    if (ratingFilter !== "all") {
-      const minRate =
-        ratingFilter === "4plus" ? 4 : ratingFilter === "3plus" ? 3 : 2;
-      list = list.filter((p) => p.rating?.rate >= minRate);
-    }
+  //  Rating filter
+  if (ratingFilter !== "all") {
+    const minRate =
+      ratingFilter === "4plus"
+        ? 4
+        : ratingFilter === "3plus"
+        ? 3
+        : 2;
 
-    if (priceMin != null && priceMax != null && priceBounds != null) {
-      list = list.filter(
-        (p) => p.price >= priceMin && p.price <= priceMax
-      );
-    }
+    list = list.filter((p) => (p.rating?.rate ?? 0) >= minRate);
+  }
 
-    return list;
-  }, [products, ratingFilter, priceMin, priceMax, priceBounds]);
+  //  Debounced Price filter
+  if (
+    debouncedPriceMin != null &&
+    debouncedPriceMax != null &&
+    priceBounds != null
+  ) {
+    list = list.filter(
+      (p) =>
+        p.price >= debouncedPriceMin &&
+        p.price <= debouncedPriceMax
+    );
+  }
+
+  return list;
+}, [
+  products,
+  ratingFilter,
+  debouncedPriceMin,
+  debouncedPriceMax,
+  priceBounds,
+]);
+
+
+
+
+
+
+
 
   const visibleProducts = useMemo(
     () => filteredProducts.slice(0, visibleCount),
