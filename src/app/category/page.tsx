@@ -29,8 +29,8 @@ const CategoryListingPage: React.FC = () => {
   const [priceBounds, setPriceBounds] = useState<{ min: number; max: number } | null>(null);
   const [priceMin, setPriceMin] = useState<number | null>(null);
   const [priceMax, setPriceMax] = useState<number | null>(null);
-const [debouncedPriceMin, setDebouncedPriceMin] = useState<number | null>(null);
-const [debouncedPriceMax, setDebouncedPriceMax] = useState<number | null>(null);
+  const [debouncedPriceMin, setDebouncedPriceMin] = useState<number | null>(null);
+  const [debouncedPriceMax, setDebouncedPriceMax] = useState<number | null>(null);
   // Collapsible state
   const [expandedSections, setExpandedSections] = useState({
     category: true,
@@ -72,13 +72,13 @@ const [debouncedPriceMax, setDebouncedPriceMax] = useState<number | null>(null);
 
 
   useEffect(() => {
-  const timer = setTimeout(() => {
-    setDebouncedPriceMin(priceMin);
-    setDebouncedPriceMax(priceMax);
-  }, 400); // 400ms delay
+    const timer = setTimeout(() => {
+      setDebouncedPriceMin(priceMin);
+      setDebouncedPriceMax(priceMax);
+    }, 400); // 400ms delay
 
-  return () => clearTimeout(timer);
-}, [priceMin, priceMax]);
+    return () => clearTimeout(timer);
+  }, [priceMin, priceMax]);
 
 
 
@@ -162,48 +162,42 @@ const [debouncedPriceMax, setDebouncedPriceMax] = useState<number | null>(null);
     setVisibleCount(PAGE_SIZE);
   };
 
- const filteredProducts = useMemo(() => {
-  let list = [...products];
+  const filteredProducts = useMemo(() => {
+    let list = [...products];
 
-  //  Rating filter
-  if (ratingFilter !== "all") {
-    const minRate =
-      ratingFilter === "4plus"
-        ? 4
-        : ratingFilter === "3plus"
-        ? 3
-        : 2;
+    //  Rating filter
+    if (ratingFilter !== "all") {
+      const minRate =
+        ratingFilter === "4plus"
+          ? 4
+          : ratingFilter === "3plus"
+            ? 3
+            : 2;
 
-    list = list.filter((p) => (p.rating?.rate ?? 0) >= minRate);
-  }
+      list = list.filter((p) => (p.rating?.rate ?? 0) >= minRate);
+    }
 
-  //  Debounced Price filter
-  if (
-    debouncedPriceMin != null &&
-    debouncedPriceMax != null &&
-    priceBounds != null
-  ) {
-    list = list.filter(
-      (p) =>
-        p.price >= debouncedPriceMin &&
-        p.price <= debouncedPriceMax
-    );
-  }
+    //  Debounced Price filter
+    if (
+      debouncedPriceMin != null &&
+      debouncedPriceMax != null &&
+      priceBounds != null
+    ) {
+      list = list.filter(
+        (p) =>
+          p.price >= debouncedPriceMin &&
+          p.price <= debouncedPriceMax
+      );
+    }
 
-  return list;
-}, [
-  products,
-  ratingFilter,
-  debouncedPriceMin,
-  debouncedPriceMax,
-  priceBounds,
-]);
-
-
-
-
-
-
+    return list;
+  }, [
+    products,
+    ratingFilter,
+    debouncedPriceMin,
+    debouncedPriceMax,
+    priceBounds,
+  ]);
 
 
   const visibleProducts = useMemo(
@@ -263,8 +257,8 @@ const [debouncedPriceMax, setDebouncedPriceMax] = useState<number | null>(null);
               <h3 className={styles.filterTitle}>Filter</h3>
 
               <div className={styles.filterBlock}>
-                <div 
-                  className={styles.filterBlockHeader} 
+                <div
+                  className={styles.filterBlockHeader}
                   onClick={() => toggleSection("category")}
                   style={{ cursor: "pointer" }}
                 >
@@ -290,8 +284,8 @@ const [debouncedPriceMax, setDebouncedPriceMax] = useState<number | null>(null);
                           />
                         ))}
                         {categories.length > 3 && (
-                          <div 
-                            className={styles.seeMore} 
+                          <div
+                            className={styles.seeMore}
                             onClick={() => setShowAllCategories(!showAllCategories)}
                           >
                             {showAllCategories ? "See less" : "See more"}
@@ -304,8 +298,8 @@ const [debouncedPriceMax, setDebouncedPriceMax] = useState<number | null>(null);
               </div>
 
               <div className={styles.filterBlock}>
-                <div 
-                  className={styles.filterBlockHeader} 
+                <div
+                  className={styles.filterBlockHeader}
                   onClick={() => toggleSection("rating")}
                   style={{ cursor: "pointer" }}
                 >
@@ -348,8 +342,8 @@ const [debouncedPriceMax, setDebouncedPriceMax] = useState<number | null>(null);
               </div>
 
               <div className={styles.filterBlock}>
-                <div 
-                  className={styles.filterBlockHeader} 
+                <div
+                  className={styles.filterBlockHeader}
                   onClick={() => toggleSection("price")}
                   style={{ cursor: "pointer" }}
                 >
@@ -452,7 +446,7 @@ const [debouncedPriceMax, setDebouncedPriceMax] = useState<number | null>(null);
                             <AddToCartButton />
                           </div>
                         </div>
-                    
+
                       </div>
                     </div>
                   ))}
