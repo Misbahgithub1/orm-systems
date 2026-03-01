@@ -1,3 +1,4 @@
+import { BASE_URL } from "./config";
 export interface Rating {
   rate: number;
   count: number;
@@ -13,7 +14,7 @@ export interface Product {
   rating: Rating;
 }
 
-const BASE_URL = "https://fakestoreapi.com";
+
 
 async function handleResponse<T>(response: Response): Promise<T> {
   if (!response.ok) {

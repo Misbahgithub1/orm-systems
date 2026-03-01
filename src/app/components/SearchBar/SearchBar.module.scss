@@ -1,0 +1,110 @@
+
+@use "../../styles/variables" as *;
+
+.searchRow {
+  margin-bottom: 1.25rem;
+}
+
+.searchInputWrapper {
+  position: relative;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 1.1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+  pointer-events: none;
+}
+
+.searchInput {
+  border-radius: 999px;
+  padding-inline: 1.5rem;
+  padding-block: 0.75rem;
+  font-size: 0.95rem;
+  padding-left: 2.4rem;
+}
+
+.searchResultsList {
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  background-color: #ffffff;
+  padding: 0.75rem 0;
+}
+
+.searchResultItem {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.4rem 1.25rem;
+  background: transparent;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #111827;
+
+  &:hover {
+    background-color: #f9fafb;
+  }
+}
+
+.searchResultThumb {
+  width: 32px;
+  height: 32px;
+  border-radius: 2px;
+  background-color: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.searchResultThumb img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.searchResultText {
+  flex: 1;
+}
+
+.searchResultTitle {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.emptySearchState {
+  padding: 1.25rem 0;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+.noResults {
+  padding: 0.5rem;
+  text-align: center;
+  font-size: 0.875rem;
+  color: #555;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  background-color: #f9f9f9;
+  margin-top: 0.25rem;
+}
+
+
+
+.loadingWrapper,
+.errorWrapper {
+  padding: 2.5rem 0;
+  text-align: center;
+  font-size: 0.95rem;
+}
+
+.errorWrapper {
+  color: #b91c1c;
+}

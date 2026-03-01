@@ -1,8 +1,6 @@
-// PRODUCT SERVICE FILE
+import { BASE_URL } from "./config";
 
 import { Product, getProductsByCategory } from "./products";
-
-const BASE_URL = "https://fakestoreapi.com";
 
 async function handleResponse<T>(response: Response): Promise<T> {
   if (!response.ok) {

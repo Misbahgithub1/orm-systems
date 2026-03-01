@@ -13,6 +13,7 @@ import portfolio5 from "../../public/images/portfolio5.png";
 import portfolio6 from "../../public/images/portfolio6.png";
 import portfolio7 from "../../public/images/portfolio7.png";
 
+
 const portfolioItems: PortfolioItem[] = [
   { src: portfolio1, alt: "Developer presenting at a meetup", layout: "tall" },
   { src: portfolio2, alt: "Engineer working with server racks", layout: "wide" },
@@ -29,6 +30,7 @@ export default function Home() {
       <Hero />
       <FeaturesSection />
       <PortfolioSection items={portfolioItems} />
+     
     </>
   );
 }
