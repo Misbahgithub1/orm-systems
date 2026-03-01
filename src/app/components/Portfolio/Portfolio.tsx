@@ -39,14 +39,18 @@ const PortfolioSection: React.FC<PortfolioProps> = ({
     <section className={styles.portfolioWrapper}>
       <Container fluid={containerFluid}>
         <h2>{title}</h2>
-
         <div className={styles.portfolioGrid}>
           {items.map((item, index) => (
             <div
               key={`${item.alt}-${index}`}
-              className={`${styles.imageCard} ${getCardLayoutClass(
-                item.layout
-              )}`}
+              className={`${styles.imageCard} ${getCardLayoutClass(item.layout)}`}
+              // 3-row cycle for dynamic data: first 2 rows for first 4 images, 3rd row auto
+              style={{
+                gridRowStart:
+                  index < 4
+                    ? Math.floor(index / 2) + 1 // first 4 images -> row 1 and 2
+                    : 3, // rest images -> row 3+
+              }}
             >
               <Image
                 src={item.src}
@@ -64,4 +68,3 @@ const PortfolioSection: React.FC<PortfolioProps> = ({
 };
 
 export default PortfolioSection;
-export { PortfolioSection };

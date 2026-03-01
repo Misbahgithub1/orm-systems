@@ -7,7 +7,6 @@
 
   h2 {
     font-family: 'Poppins', sans-serif;
-    text-align: left;
     font-size: 2rem;
     font-weight: 900;
     margin-bottom: 1rem;
@@ -15,8 +14,8 @@
     position: relative;
     display: inline-block;
     padding-bottom: 0.75rem;
-    z-index: 1; // text layer
-  
+    z-index: 1;
+
     &::after {
       content: "";
       position: absolute;
@@ -30,8 +29,7 @@
       background-position: left bottom;
       opacity: 0.5;
       pointer-events: none;
-  
-      z-index: -1; // image behind text
+      z-index: -1;
     }
   }
 }
@@ -40,14 +38,14 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1.25rem;
-  align-items: stretch;
-  // Base + per-row heights (desktop). Row-1 and Row-2 are intentionally taller
-  // to reduce cropping while keeping both tiles in a row perfectly equal height.
-  --row-base: clamp(220px, 22vw, 320px);
-  --row-1: clamp(320px, 30vw, 480px);
-  --row-2: clamp(260px, 24vw, 380px);
   grid-auto-rows: auto;
+
+  --row-base: clamp(220px, 22vw, 320px);   // third row (default)
+  --row-1: clamp(400px, 38vw, 500px);      // first row height increased
+  --row-2: clamp(350px, 32vw, 420px);      // second row height increased
 }
+
+
 
 .imageCard {
   position: relative;
@@ -55,25 +53,17 @@
   border-radius: 18px;
   overflow: hidden;
   background-color: #020617;
-  // box-shadow: 0 12px 30px rgba(15, 23, 42, 0.18);
   transform: translateY(0) scale(1);
-  transition:
-    transform 0.25s ease-out,
-    box-shadow 0.25s ease-out;
-  height: var(--row-base);
+  transition: transform 0.25s ease-out, box-shadow 0.25s ease-out;
+  height: var(--row-base); // default height for dynamic rows
+
+  &:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.3);
+  }
 }
 
-.imageCardWide {
-  grid-column: span 2;
-}
-
-.imageCardSquare {
-  height: auto;
-  aspect-ratio: 1 / 1;
-}
-
-// Force equal heights per desktop row (matches sample: 2 tiles per row).
-// 1-2 => row 1 (Portfolio1 + Portfolio2), 3-4 => row 2 (Portfolio3 + Portfolio4)
+/* Explicit height for first 2 rows */
 .portfolioGrid > .imageCard:nth-child(1),
 .portfolioGrid > .imageCard:nth-child(2) {
   height: var(--row-1);
@@ -84,64 +74,37 @@
   height: var(--row-2);
 }
 
+/* Layout variants remain same */
+.imageCardWide { grid-column: span 2; }
+.imageCardTall { grid-row: span 2; }
+.imageCardSquare { aspect-ratio: 1 / 1; height: auto; }
+
 .image {
   object-fit: cover;
   object-position: center;
 }
 
-.imageCard:hover {
-  transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.3);
-}
-
+/* Responsive */
 @media (max-width: 991.98px) {
-  .portfolioWrapper {
-    padding: 3.5rem 0;
-
-
-
-    
-  }
-
   .portfolioGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    --row-base: clamp(200px, 30vw, 300px);
-    --row-1: var(--row-base);
-    --row-2: var(--row-base);
   }
 }
 
 @media (max-width: 767.98px) {
   .portfolioWrapper {
-    padding: 0rem 1rem;
+    padding: 2rem 1rem;
 
-    h2 {
-      &::after {
-        display: none;
-      }
-    }
+    h2::after { display: none; }
   }
 
   .portfolioGrid {
     grid-template-columns: 1fr;
-    --row-base: clamp(200px, 56vw, 320px);
-    --row-1: var(--row-base);
-    --row-2: var(--row-base);
-  }
-
-  // On mobile: force every tile to the same height (no special row heights)
-  .portfolioGrid > .imageCard:nth-child(1),
-  .portfolioGrid > .imageCard:nth-child(2),
-  .portfolioGrid > .imageCard:nth-child(3),
-  .portfolioGrid > .imageCard:nth-child(4) {
-    height: var(--row-base);
   }
 
   .imageCard {
+    grid-column: auto !important;
+    grid-row: auto !important;
     border-radius: 14px;
-  }
-
-  .imageCardWide {
-    grid-column: auto;
   }
 }
