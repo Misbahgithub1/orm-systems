@@ -7,7 +7,8 @@ import { useRouter, useParams } from "next/navigation";
 import styles from "./ProductDetailPage.module.scss";
 
 import { Product } from "../../../lib/api/products";
-import { getProductById } from "../../../lib/api/productService";
+import { getProductById } from "@/lib/api/productService";
+import { getRelatedProducts } from "@/lib/api/productService";
 import SearchBar from "@/app/components/SearchBar/SearchBar";
 import ProductCardDetail from "./ProductCardDetail";
 
@@ -23,31 +24,46 @@ const ProductDetailPage: React.FC = () => {
   const [quantity, setQuantity] = useState<number>(1);
   const [isFavourite, setIsFavourite] = useState(false);
 
+  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
+const [relatedLoading, setRelatedLoading] = useState(false);
+
   // Fetch product by ID
-  useEffect(() => {
-    if (!productId) return;
 
-    const fetchProduct = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const data = await getProductById(productId);
-        setProduct(data);
+ useEffect(() => {
+  if (!productId) return;
 
-        // Check if product is in favourites
-        const raw = localStorage.getItem(FAV_KEY);
-        const ids = raw ? JSON.parse(raw) as number[] : [];
-        setIsFavourite(ids.includes(data.id));
-      } catch (err) {
-        console.error(err);
-        setError("Unable to load product details. Please try again later.");
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchProductAndRelated = async () => {
+    setLoading(true);
+    setError(null);
 
-    fetchProduct();
-  }, [productId]);
+    try {
+      // Fetch main product
+      const data = await getProductById(productId);
+      setProduct(data);
+
+      //  Check favourites
+      const raw = localStorage.getItem(FAV_KEY);
+      const ids = raw ? (JSON.parse(raw) as number[]) : [];
+      setIsFavourite(ids.includes(data.id));
+
+      // Fetch related products 
+      setRelatedLoading(true);
+      const related = await getRelatedProducts(data, 3);
+      setRelatedProducts(related);
+
+    } catch (err) {
+      console.error(err);
+      setError("Unable to load product details. Please try again later.");
+    } finally {
+      setLoading(false);
+      setRelatedLoading(false);
+    }
+  };
+
+  fetchProductAndRelated();
+}, [productId]);
+
+
 
   // Handlers
   const handleBack = () => router.back();
@@ -106,47 +122,84 @@ const ProductDetailPage: React.FC = () => {
   }
 
   return (
-    <section className={styles.pageWrapper}>
-      <Container>
-        <Row className={styles.backRow}>
-          <Col>
-            <button type="button" className={styles.backButton} onClick={handleBack}>
-              ← Back
-            </button>
-          </Col>
-        </Row>
+ <section className={styles.pageWrapper}>
+  <Container>
+    {/* Back button */}
+    <Row className={styles.backRow}>
+      <Col>
+        <button type="button" className={styles.backButton} onClick={handleBack}>
+          ← Back
+        </button>
+      </Col>
+    </Row>
 
-        <Row>
-          <Col>
-            <ProductCardDetail
-              product={product}
-              quantity={quantity}
-              isFavourite={isFavourite}
-              onDecreaseQuantity={handleDecreaseQuantity}
-              onIncreaseQuantity={handleIncreaseQuantity}
-              onToggleFavourite={handleToggleFavourite}
-              onAddToCart={handleAddToCart}
-            />
-          </Col>
-        </Row>
+    {/* Product detail card */}
+    <Row>
+      <Col>
+        <ProductCardDetail
+          product={product}
+          quantity={quantity}
+          isFavourite={isFavourite}
+          onDecreaseQuantity={handleDecreaseQuantity}
+          onIncreaseQuantity={handleIncreaseQuantity}
+          onToggleFavourite={handleToggleFavourite}
+          onAddToCart={handleAddToCart}
+        />
+      </Col>
+    </Row>
 
-        <section className={styles.relatedSection}>
-          <Row>
-            <Col>
-              <div className={styles.relatedHeaderRow}>
-                <h2 className={styles.relatedTitle}>Products</h2>
+    {/* Related products / You may also like */}
+    <section className={styles.relatedSection}>
+      <Row>
+        <Col>
+          <div className={styles.relatedHeaderRow}>
+            <h2 className={styles.relatedTitle}>You May Also Like</h2>
+          </div>
+        </Col>
+      </Row>
+
+      {/* Related product list */}
+      {relatedLoading ? (
+        <div className={styles.relatedLoading}>
+          <Spinner animation="border" size="sm" />
+        </div>
+      ) : relatedProducts.length === 0 ? (
+        <div className={styles.noRelated}>
+          No related products found.
+        </div>
+      ) : (
+        <div className={styles.relatedList}>
+          {relatedProducts.map((item) => (
+            <div
+              key={item.id}
+              className={styles.relatedListItem}
+              onClick={() => handleRelatedClick(item.id)}
+            >
+              <div className={styles.relatedThumb}>
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  loading="lazy"
+                />
               </div>
-            </Col>
-          </Row>
+              <div className={styles.relatedText}>
+                <h6>{item.title}</h6>
+                <span>${item.price.toFixed(2)}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
 
-          <Row className={styles.searchRow}>
-            <Col>
-              <SearchBar onSelect={handleRelatedClick} />
-            </Col>
-          </Row>
-        </section>
-      </Container>
+      {/* Search bar below related products */}
+      <Row className={styles.searchRow}>
+        <Col>
+          <SearchBar onSelect={handleRelatedClick} />
+        </Col>
+      </Row>
     </section>
+  </Container>
+</section>
   );
 };
 
