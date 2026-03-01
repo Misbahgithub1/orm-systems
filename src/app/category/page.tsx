@@ -34,9 +34,6 @@ const CategoryListingPage: React.FC = () => {
   const [debouncedPriceMax, setDebouncedPriceMax] = useState<number | null>(null);
   const [priceFilter, setPriceFilter] = useState<PriceRangeValue | null>(null);
 
-
-
-
   // Collapsible state
   const [expandedSections, setExpandedSections] = useState({
     category: true,
@@ -279,6 +276,7 @@ const CategoryListingPage: React.FC = () => {
             priceFilter={priceFilter}
             setPriceFilter={setPriceFilter}
             handlePriceMinChange={handlePriceMinChange}
+            handlePriceMaxChange={handlePriceMaxChange}
             showAllCategories={showAllCategories}
             setShowAllCategories={setShowAllCategories}
 

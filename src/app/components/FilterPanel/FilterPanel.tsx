@@ -28,6 +28,7 @@ interface Props {
   priceMin: number | null;
   priceMax: number | null;
   handlePriceMinChange: (value: number) => void;
+  handlePriceMaxChange: (value: number) => void;
   showAllCategories: boolean;
   setShowAllCategories: React.Dispatch<React.SetStateAction<boolean>>;
   priceFilter: PriceRangeValue | null;
@@ -48,6 +49,7 @@ const FilterPanel: React.FC<Props> = ({
   priceMin,
   priceMax,
   handlePriceMinChange,
+  handlePriceMaxChange,
   showAllCategories,
   setShowAllCategories,
     setPriceFilter,
@@ -164,7 +166,10 @@ const FilterPanel: React.FC<Props> = ({
   toggle={() => toggleSection("price")}
   priceBounds={priceBounds}
   priceMin={priceMin}
+  priceMax={priceMax}
+  onPriceMaxChange={handlePriceMaxChange}
   onPriceMinChange={handlePriceMinChange}
+  
 />
 
 {/* <PriceCheckboxFilter
